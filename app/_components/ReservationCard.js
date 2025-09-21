@@ -76,7 +76,7 @@ function ReservationCard({ booking }) {
           <>
             <Link
               href={`/account/reservations/edit/${id}`}
-              className="group flex items-center gap-2 max-sm:flex-1 uppercase text-xs font-bold text-primary300 border-b max-sm:border-none border-primary800 flex-grow max-sm:flex-none px-3 hover:bg-accent600 transition-colors hover:text-primary900"
+              className="group flex items-center gap-2 max-sm:flex-1 uppercase text-xs font-bold text-primary300 border-b max-sm:border-none border-primary800 flex-grow  px-3 hover:bg-accent600 transition-colors hover:text-primary900"
             >
               <PencilSquareIcon className="h-5 w-5 text-primary600 group-hover:text-primary800 transition-colors" />
               <span className="mt-1">Edit</span>

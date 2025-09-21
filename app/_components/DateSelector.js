@@ -10,6 +10,7 @@ import "react-day-picker/style.css";
 import { useReservation } from "./ReservationContext";
 
 function isAlreadyBooked(range, datesArr) {
+  if (!range || !range.from || !range.to) return false;
   return (
     range.from &&
     range.to &&
@@ -25,8 +26,12 @@ function DateSelector({ settings, bookedDates, cabin }) {
   const { range, setRange, resetRange } = useReservation();
   const displayRange = isAlreadyBooked(range, bookedDates) ? {} : range;
   const { regularPrice, discount } = cabin;
-  const numNights = differenceInDays(displayRange.to, displayRange.from);
-  const cabinPrice = numNights * (regularPrice - discount);
+  const numNights =
+    displayRange?.from && displayRange?.to
+      ? differenceInDays(displayRange?.to, displayRange?.from)
+      : 0;
+
+  const cabinPrice = numNights > 0 ? numNights * (regularPrice - discount) : 0;
 
   const defaultClassNames = getDefaultClassNames();
   // SETTINGS
@@ -36,14 +41,17 @@ function DateSelector({ settings, bookedDates, cabin }) {
     <div className="flex flex-col justify-between w-full  ">
       <DayPicker
         classNames={{
-          today: `border-accent500`,
+          today: `border-accent500 `,
           button_next: `bg-accent500`,
-          selected: `bg-accent500  justify-center text-white`,
+          selected: `bg-accent500 justify-center text-white`, // for selected days
+          range_start: `bg-accent500 text-white rounded-l-full`, // first day
+          range_end: `bg-accent500 text-white rounded-r-full`, // last day
+          range_middle: `bg-accent100 text-primary800`, // in-between days
           root: `${defaultClassNames.root} shadow-lg p-5`,
           chevron: `${defaultClassNames.chevron} fill-accent500`,
         }}
         mode="range"
-        min={minBookingLength + 1}
+        min={minBookingLength}
         max={maxBookingLength}
         selected={displayRange}
         onSelect={setRange}
